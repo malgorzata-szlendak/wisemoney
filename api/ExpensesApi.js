@@ -26,25 +26,8 @@ export function addExpense(expense, addComplete) { //obj exp i callback
   expense.createdAt =firestore.FieldValue.serverTimestamp();
 
   firestore()
-    .collection('expenses') //kolekcja z bazy
-    // .add({ //dodanie objektu
-    //  title: expense.title,
-    //  category: expense.category,
-    //  description: expense.description,
-    //  price: expense.price,
-    //  createdAt: firestore.FieldValue.serverTimestamp() //czas stworzenia
-    // }) 
-    //  .then((snapshot) => snapshot.get())
-    //  .then((expenseData) => addComplete(expenseData.data())) //otrzymywanie danych
-    ////////
-    // .add(expense)
-    // .then((snapshot) => {
-    //   expense.id = snapshot.id;
-    //   snapshot.set(expense);
-    // }).then(() => addComplete(expense))
-    // .catch((error) => console.log(error));
-    
-      .add(expense)
+    .collection('expenses') //kolekcja z bazy   
+      .add(expense) //dodanie objektu
       .then((snapshot) => {
         expense.id = snapshot.id;
         snapshot.set(expense);

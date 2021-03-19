@@ -53,6 +53,13 @@ class ExpenseList extends Component {
         getExpenses(this.onExpenseReceived);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(prevState.expenseList.title !== this.state.expenseList.title) {
+            getExpenses(this.onExpenseReceived);
+        }
+    }
+   
+
     showActionButton = () =>
         <ActionButton
             buttonColor='pink'
@@ -70,12 +77,6 @@ class ExpenseList extends Component {
                         return (
                             <ListItem
                                 containerStyle={styles.listItem}
-                                // title={item.title}
-                                // title={`Category: ${item.category}`}
-                                // subtitle={item.description}
-                                // subtitle={item.price}
-                                // leftAvatar={{
-                                // }}
                                 onPress={() => {
                                     this.setState(prevState => ({ selectedIndex: prevState.selectedIndex = index }))
                                     this.props.navigation.navigate('ExpenseDetails', { expense: item, expenseDeletedCallback: this.onExpenseDeleted })

@@ -6,7 +6,7 @@ import ExpenseDetailsScreen from './src/screens/ExpenseDetailsScreen';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-// edit tekst w title nie pobiera się do form po zeedytowaniu lista sie nie updatuje, ikony z elements nie dzialaja, zaciagnac nowe albo ogarnac czemu nie / category trzeba zmienic na do wyboru
+// po edycji lista sie nie updatuje, ikony z elements nie dzialaja, zaciagnac nowe albo ogarnac czemu nie / category trzeba zmienic na do wyboru
 // HomeScreen i components będą do usunięcia
 
 // 0. rozszerzenie expense properties (category + date) /
@@ -42,39 +42,6 @@ export default class App extends Component {
     )
   }
 }
-// import { createStackNavigator } from '@react-navigation/stack';
-// import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-// // import { HomeScreen } from './src/screens';
 
-// const theme = {
-//   ...DefaultTheme,
-//   color: {
-//     ...DefaultTheme.colors,
-//     border: "transparent"
-//   }
-// }
-
-// const Stack = createStackNavigator();
-
-// const App = () => {
-//   return(
-//     <NavigationContainer theme={theme}>
-//       <Stack.Navigator
-//       //   screenOptions={{
-//       //  headerShown: false
-//       //   }}
-//         // initialRouteName={'HomeScreen'}
-//         initialRouteName={'ExpenseList'}
-//       >
-//         {/* <Stack.Screen name="HomeScreen" component={HomeScreen}/> */}
-//         <Stack.Screen name="ExpenseList" component={ExpenseListScreen} options={ExpenseListScreen.navigationOptions} />
-//         <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} options={ExpenseFormScreen.navigationOptions}/>
-//         <Stack.Screen name="ExpenseDetails" component={ExpenseDetailsScreen} options={ExpenseDetailsScreen.navigationOptions}/>
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   )
-// }
-
-// export default App;
 
 

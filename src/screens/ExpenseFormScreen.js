@@ -8,9 +8,7 @@ export default class ExpenseFormScreen extends Component {
       title: navigation.getParam('expense') ? 'Edit Expense' : 'New Expense'
     }
   };
-//   navigation.getParam('someParam', 'defaultValue');
-//   route.params?.someParam ?? 'defaultValue';
-
+  
   state = {
     expense: {
       title: '',

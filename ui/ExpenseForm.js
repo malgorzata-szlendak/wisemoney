@@ -9,6 +9,7 @@ import {
 import { withFormik } from 'formik';
 import * as yup from 'yup';
 import { addExpense, uploadExpense, updateExpense} from "../api/ExpensesApi";
+import { Picker } from '@react-native-picker/picker';
 
 
 const ExpenseForm = (props) => {
@@ -66,9 +67,9 @@ export default withFormik({
     price: yup.number().max(1000000).required()
   }),
   handleSubmit: (values, { props }) => {
-    console.log(props);
+    // console.log(props);
 
-    console.log(values);
+    // console.log(values);
 
     if (props.expense.id) {
       values.id = props.expense.id;

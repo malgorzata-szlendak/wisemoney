@@ -29,8 +29,8 @@ class ExpenseDetailsScreen extends Component {
         <View>
           <Icon
             reverse
-            name='create'
-            type='material'
+            name='edit'
+            type='font-awesome-5'
             onPress={() =>
               this.props.navigation.navigate('ExpenseForm', {
                 expense: expense
@@ -39,8 +39,8 @@ class ExpenseDetailsScreen extends Component {
           />
           <Icon
             reverse
-            name='delete_outline'
-            type='material'
+            name='trash'
+            type='font-awesome-5'
             color='#CA300E'
             onPress={() =>
               Alert.alert(
