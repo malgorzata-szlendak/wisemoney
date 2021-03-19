@@ -1,112 +1,80 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { Component } from 'react';
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import ExpenseListScreen from './src/screens/ExpenseListScreen';
+import ExpenseFormScreen from './src/screens/ExpenseFormScreen';
+import ExpenseDetailsScreen from './src/screens/ExpenseDetailsScreen';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// edit tekst w title nie pobiera się do form po zeedytowaniu lista sie nie updatuje, ikony z elements nie dzialaja, zaciagnac nowe albo ogarnac czemu nie / category trzeba zmienic na do wyboru
+// HomeScreen i components będą do usunięcia
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+// 0. rozszerzenie expense properties (category + date) /
+    // 1. edit/add (edit i delete oddzielne albo z przekazaniem propsa) + button "edit", dane w placeholdery, i przycisk "zapisz" /oddzielny ekran na kazdy
+    // 2. lista wydatków (home screen) oddzielny screen (na nim bedziemy pozniej zapinac chart*) + button "usuń" (delete element)
+    //  ------------------------------------------------------------------------------------------------------------------------------------------------------
+    // 3. navigacja simple very (nie jest must have na czwartek)
+    // 4. zadanie z * mozesz sie pobawić stylowanie
+    // 5. stylowanko fun fun fun
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+    //** kategorie: np. hobby, dom, niezbędne, chemia,  rozwój, inwestycje , inne , edukacja, jedzenie, ubrania, kosmetyki  max 5-6
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+    //podsumowanie:  pie chart, 80% wydatków     |chemia       |      jezonko|                             pierdoły                  |                            |  1000zl
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+const AppContainer = createAppContainer(createStackNavigator(
+  {
+  ExpenseList: ExpenseListScreen,
+  ExpenseForm: ExpenseFormScreen,
+  ExpenseDetails: ExpenseDetailsScreen
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  {
+    initialRouteName: 'ExpenseList',
+  }
+));
 
-export default App;
+export default class App extends Component {
+  render() {
+    return (
+      <AppContainer
+        screenProps={{ appName: 'wisemoney' }}
+      />
+    )
+  }
+}
+// import { createStackNavigator } from '@react-navigation/stack';
+// import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+// // import { HomeScreen } from './src/screens';
+
+// const theme = {
+//   ...DefaultTheme,
+//   color: {
+//     ...DefaultTheme.colors,
+//     border: "transparent"
+//   }
+// }
+
+// const Stack = createStackNavigator();
+
+// const App = () => {
+//   return(
+//     <NavigationContainer theme={theme}>
+//       <Stack.Navigator
+//       //   screenOptions={{
+//       //  headerShown: false
+//       //   }}
+//         // initialRouteName={'HomeScreen'}
+//         initialRouteName={'ExpenseList'}
+//       >
+//         {/* <Stack.Screen name="HomeScreen" component={HomeScreen}/> */}
+//         <Stack.Screen name="ExpenseList" component={ExpenseListScreen} options={ExpenseListScreen.navigationOptions} />
+//         <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} options={ExpenseFormScreen.navigationOptions}/>
+//         <Stack.Screen name="ExpenseDetails" component={ExpenseDetailsScreen} options={ExpenseDetailsScreen.navigationOptions}/>
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   )
+// }
+
+// export default App;
+
+

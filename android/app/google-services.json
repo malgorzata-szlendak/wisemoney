@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "983042344363",
+    "project_id": "wisemoneydb",
+    "storage_bucket": "wisemoneydb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983042344363:android:1f3e02e3371b8bea8fbeee",
+        "android_client_info": {
+          "package_name": "com.wisemoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983042344363-b87i78l5sb2hph9a58nf3mg22etb08o0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjSr0FVxaaLJ4gKlkm1T1aMqqreKp_wbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983042344363-b87i78l5sb2hph9a58nf3mg22etb08o0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
