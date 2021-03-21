@@ -85,13 +85,13 @@ class ExpenseList extends Component {
                                 <ListItem.Content>
                                     <ListItem.Title>
                                         <Text>{item.title} </Text>
-                                        
                                         <Text> {item.price} PLN</Text>
                                     </ListItem.Title>
                                     <ListItem.Title>
                                     <Text>{`| Kategoria: ${item.category}`}</Text>
                                     </ListItem.Title>
                                     <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
+                                    <ListItem.Subtitle>{item.date}</ListItem.Subtitle>
                                 </ListItem.Content>
                             </ListItem>
                         );

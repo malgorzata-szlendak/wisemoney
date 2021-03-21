@@ -1,47 +1,52 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import ExpenseListScreen from './src/screens/ExpenseListScreen';
 import ExpenseFormScreen from './src/screens/ExpenseFormScreen';
 import ExpenseDetailsScreen from './src/screens/ExpenseDetailsScreen';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-// po edycji lista sie nie updatuje, ikony z elements nie dzialaja, zaciagnac nowe albo ogarnac czemu nie / category trzeba zmienic na do wyboru
-// HomeScreen i components będą do usunięcia
-
-// 0. rozszerzenie expense properties (category + date) /
-    // 1. edit/add (edit i delete oddzielne albo z przekazaniem propsa) + button "edit", dane w placeholdery, i przycisk "zapisz" /oddzielny ekran na kazdy
-    // 2. lista wydatków (home screen) oddzielny screen (na nim bedziemy pozniej zapinac chart*) + button "usuń" (delete element)
-    //  ------------------------------------------------------------------------------------------------------------------------------------------------------
-    // 3. navigacja simple very (nie jest must have na czwartek)
-    // 4. zadanie z * mozesz sie pobawić stylowanie
-    // 5. stylowanko fun fun fun
+// po edycji lista sie nie updatuje, zaciagnac nowe albo ogarnac czemu nie / category trzeba zmienic na do wyboru
 
 
-    //** kategorie: np. hobby, dom, niezbędne, chemia,  rozwój, inwestycje , inne , edukacja, jedzenie, ubrania, kosmetyki  max 5-6
+// 0. rozszerzenie expense properties (category picker) /
+// 4. zadanie z * mozesz sie pobawić stylowanie
+// 5. stylowanko fun fun fun
 
-    //podsumowanie:  pie chart, 80% wydatków     |chemia       |      jezonko|                             pierdoły                  |                            |  1000zl
+//** kategorie: np. hobby, dom, niezbędne, chemia,  rozwój, inwestycje , inne , edukacja, jedzenie, ubrania, kosmetyki  max 5-6
 
-const AppContainer = createAppContainer(createStackNavigator(
-  {
-  ExpenseList: ExpenseListScreen,
-  ExpenseForm: ExpenseFormScreen,
-  ExpenseDetails: ExpenseDetailsScreen
-  },
-  {
-    initialRouteName: 'ExpenseList',
-  }
-));
+//podsumowanie:  pie chart, 80% wydatków     |chemia       |      jezonko|                             pierdoły                  |                            |  1000zl
+
+const AppContainer = createAppContainer(
+  createStackNavigator(
+    {
+      ExpenseList: ExpenseListScreen,
+      ExpenseForm: ExpenseFormScreen,
+      ExpenseDetails: ExpenseDetailsScreen,
+    },
+    {
+      initialRouteName: 'ExpenseList',
+    },
+  ),
+);
 
 export default class App extends Component {
   render() {
-    return (
-      <AppContainer
-        screenProps={{ appName: 'wisemoney' }}
-      />
-    )
+    return <AppContainer screenProps={{appName: 'wisemoney'}} />;
   }
 }
 
+// const [selectedCat, setSelectedCat] = useState(); //picker
 
-
+// <Picker
+//                     selectedValue={selectedCat}
+//                     onValueChange={(itemValue, itemIndex) =>
+//                         setSelectedCat(itemValue)
+//                     }>
+//                     <Picker.Item label="Edukacja" value="education" />
+//                     <Picker.Item label="Jedzenie" value="food" />
+//                     <Picker.Item label="Leki" value="medicine" />
+//                     <Picker.Item label="Kosmetyki" value="beauty" />
+//                     <Picker.Item label="Sport" value="sport" />
+//                     <Picker.Item label="Odzież" value="clothes" />
+//                 </Picker>

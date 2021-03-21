@@ -59,6 +59,7 @@ class ExpenseDetailsScreen extends Component {
         <Text>Kategoria: {expense.category}</Text>
         <Text>Opis: {expense.description}</Text>
         <Text>Cena: {expense.price}</Text>
+        <Text>Data: {expense.date}</Text>
       </View >
     );
   }

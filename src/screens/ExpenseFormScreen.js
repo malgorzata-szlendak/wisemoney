@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { date } from 'yup';
 import ExpenseForm from '../../ui/ExpenseForm';
 
 export default class ExpenseFormScreen extends Component {
@@ -14,7 +15,8 @@ export default class ExpenseFormScreen extends Component {
       title: '',
       category: '',
       description: '',
-      price: ''
+      price: '',
+      date: ''
     }
   }
 
