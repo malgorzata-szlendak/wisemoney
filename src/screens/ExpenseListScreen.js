@@ -12,8 +12,8 @@ import {
 import {getExpenses} from '../../api/ExpensesApi';
 import {ListItem, Divider, Icon} from 'react-native-elements';
 import ActionButton from 'react-native-action-button';
-import { COLORS } from '../../constants';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {COLORS, icons} from '../../constants';
+import {TouchableHighlight} from 'react-native';
 
 class ExpenseList extends Component {
   static navigationOptions = ({navigation}) => {
@@ -63,13 +63,29 @@ class ExpenseList extends Component {
 
   showActionButton = () => (
     <ActionButton
-      buttonColor= {COLORS.odOrange}
+      buttonColor={COLORS.odOrange}
       onPress={() =>
         this.props.navigation.navigate('ExpenseForm', {
           expenseAddedCallback: this.onExpenseAdded,
         })
       }
     />
+  );
+  showChartButton = () => (
+    <TouchableHighlight
+      buttonColor={COLORS.odOrange}
+      onPress={() =>
+        this.props.navigation.navigate('ExpenseSummary')
+      }>
+      <Image
+        source={icons.chart}
+        style={{
+          width: 30,
+          height: 30,
+          tintColor: COLORS.odOrange,
+        }}
+      />
+    </TouchableHighlight>
   );
   renderExpense = (expense, index) => {
     return (
@@ -91,18 +107,17 @@ class ExpenseList extends Component {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-
-            <Icon 
+            <Icon
               reverse
               name="shopping-basket"
               type="font-awesome-5"
-              color= {COLORS.odOrange}
+              color={COLORS.odOrange}
+              sou
             />
             <Text style={styles.name}>{expense.title}</Text>
             <Text style={styles.name}>{expense.date}</Text>
             <Text style={styles.name}>{expense.price} PLN</Text>
           </View>
-
         </TouchableOpacity>
       </View>
     );
@@ -115,17 +130,18 @@ class ExpenseList extends Component {
           <Text style={styles.headerTitle}>Lista wydatków</Text>
         </View> */}
         {/* <View style={{ paddingHorizontal: 40, marginTop: 20, marginBottom: 20 }}> */}
+        {this.showChartButton()}
         <View style={styles.header}>
           <Text
             style={{
               fontSize: 40,
-              color: COLORS.odOrange 
+              color: COLORS.odOrange,
             }}
             // style={styles.headerTitle}
           >
             Expenses
           </Text>
-          </View>
+        </View>
         <FlatList
           style={styles.feed}
           data={this.state.expenseList}
@@ -141,7 +157,7 @@ class ExpenseList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.cpDarkBlue,
+    backgroundColor: COLORS.cpDarkBlue, // albo "#064c34"
   },
   header: {
     paddingHorizontal: 25,
@@ -203,6 +219,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
 });
 export default ExpenseList;

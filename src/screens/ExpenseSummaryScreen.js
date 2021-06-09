@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {VictoryPie} from 'victory-native';
+import {Svg} from 'react-native-svg';
+import {COLORS, SIZES, FONTS, icons} from '../../constants';
 
 export default class ExpenseSummaryScreen extends Component {
   static navigationOptions = ({navigation}) => {
@@ -8,11 +11,87 @@ export default class ExpenseSummaryScreen extends Component {
     };
   };
 
+  renderNavBar() {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          height: 50,
+          justifyContent: 'space-between',
+          alignItems: 'flex-end',
+          paddingHorizontal: SIZES.padding,
+          backgroundColor: COLORS.white,
+        }}>
+        <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'flex-end', width: 50}}
+          onPress={() => console.log('More')}>
+          <Image
+            source={icons.chart}
+            style={{
+              width: 40,
+              height: 40,
+              tintColor: COLORS.black,
+            }}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'flex-end', width: 50}}
+          onPress={() => console.log('More')}>
+          <Image
+            source={icons.plus}
+            style={{
+              width: 50,
+              height: 50,
+              tintColor: COLORS.black,
+            }}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            width: 50,
+            height: 50,
+          }}
+          onPress={() => console.log('More')}>
+          <Image
+            source={icons.menu}
+            style={{
+              width: 30,
+              height: 30,
+              tintColor: COLORS.black,
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+  renderTitle() {
+    return (
+      <View
+        style={{
+          height: 80,
+          backgroundColor: COLORS.lightGray,
+          padding: SIZES.padding,
+        }}>
+        <Text style={{...FONTS.h3, color: COLORS.pinkPower}}>
+          Summary of your expenses
+        </Text>
+        <Text style={{...FONTS.body4, color: COLORS.darkgray}}>Count: X</Text>
+      </View>
+    );
+  }
   render() {
     return (
       <View>
-        <Text> textInComponent </Text>
+        {this.renderTitle()}
+        {this.renderNavBar()}
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+});

@@ -18,6 +18,7 @@ class ExpenseDetailsScreen extends Component {
     }
   };
 
+  
   render() {
     const expense = this.props.navigation.getParam('expense');
 
