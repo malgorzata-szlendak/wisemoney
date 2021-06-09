@@ -6,7 +6,7 @@ export default class ExpenseFormScreen extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('expense') ? 'Edit Expense' : 'New Expense'
+      title: navigation.getParam('expense') ? 'Edit Expense' : 'Add Expense'
     }
   };
   
@@ -25,7 +25,7 @@ export default class ExpenseFormScreen extends Component {
 
     if (currentExpense) {
       this.setState(prevState => ({ expense: prevState.expense = currentExpense }))
-    }
+    }  
   }
 
   onExpenseUpdated = (expense) => {
@@ -35,6 +35,7 @@ export default class ExpenseFormScreen extends Component {
 
 
   render() {
+    
     return (
       <ExpenseForm
         expense={this.state.expense}

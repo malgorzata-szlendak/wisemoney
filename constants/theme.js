@@ -27,6 +27,20 @@ export const COLORS = {
     tuna: "#f78b8b",
     peach: "#FF615F",
 
+    //orange rip palette
+    odDark: "#061623",
+    odGreenDark:"#1c4547",
+    odGreenLight: "#266866",
+    odOrange: "#f68800",
+    odOrangeLight:"#f9bd24",
+
+    //colorful palette
+    cpPINK:"#ef476f",
+    cpYellow:"#ffd166",
+    cpGreen:"#06d6a0",
+    cpBlue:"#118ab2",
+    cpDarkBlue:"#073b4c",
+
 };
 
 export const SIZES = {
@@ -39,6 +53,8 @@ export const SIZES = {
     height
 
 };
+
+// const shuffle = (array: Array<string>): Array<string> => array.sort(()=> Math.random() - 0.5); //rand colors for categories, not done check yt and finish
 
 
 const appTheme = { COLORS, SIZES };
