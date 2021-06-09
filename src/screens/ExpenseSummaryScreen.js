@@ -16,50 +16,52 @@ export default class ExpenseSummaryScreen extends Component {
       <View
         style={{
           flexDirection: 'row',
-          height: 50,
+          height: 60,
           justifyContent: 'space-between',
-          alignItems: 'flex-end',
+          alignItems: 'center',
           paddingHorizontal: SIZES.padding,
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.cpDarkBlue,
         }}>
         <TouchableOpacity
-          style={{justifyContent: 'center', alignItems: 'flex-end', width: 50}}
+          style={{justifyContent: 'center', alignItems: 'center', width: 50}}
           onPress={() => console.log('More')}>
           <Image
             source={icons.chart}
+            resizeMode="contain"
             style={{
-              width: 40,
-              height: 40,
-              tintColor: COLORS.black,
+              width: 30,
+              height: 30,
+              tintColor: COLORS.odOrange,
             }}
           />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{justifyContent: 'center', alignItems: 'flex-end', width: 50}}
+          style={{justifyContent: 'center', alignItems: 'center', width: 50}}
           onPress={() => console.log('More')}>
           <Image
             source={icons.plus}
+            resizeMode="contain"
             style={{
-              width: 50,
-              height: 50,
-              tintColor: COLORS.black,
+              width: 30,
+              height: 30,
+              tintColor: COLORS.odOrange,
             }}
           />
         </TouchableOpacity>
         <TouchableOpacity
           style={{
             justifyContent: 'center',
-            alignItems: 'flex-end',
+            alignItems: 'center',
             width: 50,
-            height: 50,
           }}
           onPress={() => console.log('More')}>
           <Image
             source={icons.menu}
+            resizeMode="contain"
             style={{
               width: 30,
               height: 30,
-              tintColor: COLORS.black,
+              tintColor: COLORS.odOrange,
             }}
           />
         </TouchableOpacity>
