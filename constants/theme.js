@@ -27,7 +27,7 @@ export const COLORS = {
     tuna: "#f78b8b",
     peach: "#FF615F",
 
-    //orange rip palette
+    //orange drip palette
     odDark: "#061623",
     odGreenDark:"#1c4547",
     odGreenLight: "#266866",
@@ -35,11 +35,24 @@ export const COLORS = {
     odOrangeLight:"#f9bd24",
 
     //colorful palette
-    cpPINK:"#ef476f",
+    cpPINK:"#ef476f", //1
     cpYellow:"#ffd166",
-    cpGreen:"#06d6a0",
+    cpGreen:"#06d6a0", //1
     cpBlue:"#118ab2",
     cpDarkBlue:"#073b4c",
+
+    mainGreen: "#064c34", //splash
+    green2: '#5fab7d',
+    green3: '#052017', //1
+    green4: '#1f7457',
+    green5: '#4da27e' ,
+    green6: '#39534c',
+    mGreen: '#84b747',
+    mOrange: '#c1640a',
+    black: '#161e11',
+    green7: '#AFD5BE' //1
+
+
 
 };
 

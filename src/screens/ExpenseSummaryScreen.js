@@ -20,7 +20,7 @@ export default class ExpenseSummaryScreen extends Component {
           justifyContent: 'space-between',
           alignItems: 'center',
           paddingHorizontal: SIZES.padding,
-          backgroundColor: COLORS.cpDarkBlue,
+          backgroundColor: COLORS.white,
         }}>
         <TouchableOpacity
           style={{justifyContent: 'center', alignItems: 'center', width: 50}}
@@ -31,7 +31,7 @@ export default class ExpenseSummaryScreen extends Component {
             style={{
               width: 30,
               height: 30,
-              tintColor: COLORS.odOrange,
+              tintColor: COLORS.cpPINK,
             }}
           />
         </TouchableOpacity>
@@ -44,7 +44,7 @@ export default class ExpenseSummaryScreen extends Component {
             style={{
               width: 30,
               height: 30,
-              tintColor: COLORS.odOrange,
+              tintColor: COLORS.cpPINK,
             }}
           />
         </TouchableOpacity>
@@ -61,7 +61,7 @@ export default class ExpenseSummaryScreen extends Component {
             style={{
               width: 30,
               height: 30,
-              tintColor: COLORS.odOrange,
+              tintColor: COLORS.cpPINK,
             }}
           />
         </TouchableOpacity>

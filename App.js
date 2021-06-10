@@ -5,7 +5,21 @@ import ExpenseDetailsScreen from './src/screens/ExpenseDetailsScreen';
 import ExpenseSummaryScreen from './src/screens/ExpenseSummaryScreen';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import Tabs from './navigator/tabs'
+import SplashScreen from 'react-native-splash-screen'
 
+// const AppContainer = createAppContainer(
+// createStackNavigator( <Tabs/>)}
+
+// const App = () => {
+//   return(
+//     <AppContainer>
+    
+//     </AppContainer>
+//   ),
+// }
+
+// export default App;
 const AppContainer = createAppContainer(
   createStackNavigator(
     {
@@ -21,8 +35,17 @@ const AppContainer = createAppContainer(
 );
 
 export default class App extends Component {
+
+  componentDidMount() {
+    // do stuff while splash screen is shown
+      // After having done stuff (such as async tasks) hide the splash screen
+      SplashScreen.hide();
+  }
+
   render() {
-    return <AppContainer screenProps={{appName: 'wisemoney'}} />;
+    return <AppContainer screenProps={{appName: 'wisemoney'}}>
+      
+    </AppContainer>
   }
 }
 

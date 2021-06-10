@@ -5,14 +5,14 @@ import * as yup from 'yup';
 import {addExpense, uploadExpense, updateExpense} from '../api/ExpensesApi';
 import {Picker} from '@react-native-picker/picker';
 import DatePicker from 'react-native-datepicker';
-import {COLORS, SIZES, icons} from '../constants';
+import {COLORS, SIZES, icons, CategoryEnum} from '../constants';
 import { TouchableHighlight } from 'react-native';
 
 const ExpenseForm = props => {
   const [selectedValue, setValue] = useState(0);
   // const values = ['Wybierz kategorię', 'Rachunki', 'Edukacja', 'Hobby', 'Żywność', 'Leki', 'Kosmetyki', 'Odzież', 'Sport' ]
-  const values = ['Select category', 'Bills', 'Education', 'Hobby', 'Food & Drink', 'Medicine', 'Beauty & Care', 'Clothing', 'Sport' ]
-  
+  // const values = ['Select category', 'Bills', 'Education', 'Hobby', 'Food & Drink', 'Medicine', 'Beauty & Care', 'Clothing', 'Sport' ]
+  const values = ['Select category', CategoryEnum.BILLS, CategoryEnum.EDUCATION, CategoryEnum.FOOD, CategoryEnum.CARE, CategoryEnum.HOBBY, CategoryEnum.CLOTHING, CategoryEnum.OTHERS ];
   return (
     <View style={styles.container}>
       <TextInput
@@ -71,7 +71,7 @@ const ExpenseForm = props => {
             right: 0,
             top: 4,
             marginRight: 5,
-            tintColor: COLORS.cpDarkBlue,
+            tintColor: COLORS.mainGreen,
             width: 30,
             height: 30,
           },
@@ -89,7 +89,7 @@ const ExpenseForm = props => {
       onPress={() => props.handleSubmit()} />
       </View> */}
       <TouchableHighlight
-                underlayColor= "#073b4c"
+                underlayColor= {COLORS.mainGreen}
                 style={styles.buttonStyle}
                 onPress={() => props.handleSubmit()}
                >
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     color: 'black',
-    borderColor: COLORS.odOrange,
+    borderColor: COLORS.cpGreen,
     borderWidth: 2,
     padding: 8,
     margin: 16,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   button:{
     width: '100%',
     height: 50,
-    backgroundColor: COLORS.odOrange,
+    backgroundColor: COLORS.cpPINK,
   },
   buttonWrapper:{
     width: '80%',
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
       marginLeft:5,
       elevation:2,
       marginTop:25,
-      backgroundColor:"#f68800",
+      backgroundColor: COLORS.cpPINK,
       paddingVertical:13,
       borderRadius:25,
       alignSelf:"center",
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     width: '105%',
     height: 50,
     color: 'black',
-    borderColor: COLORS.odOrange,
+    borderColor: COLORS.cpGreen,
     padding: 8,
     margin: 16
   },

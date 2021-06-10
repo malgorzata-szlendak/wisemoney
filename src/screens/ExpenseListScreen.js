@@ -12,8 +12,46 @@ import {
 import {getExpenses} from '../../api/ExpensesApi';
 import {ListItem, Divider, Icon} from 'react-native-elements';
 import ActionButton from 'react-native-action-button';
-import {COLORS, icons} from '../../constants';
+import {COLORS, icons, CategoryEnum} from '../../constants';
 import {TouchableHighlight} from 'react-native';
+
+const categoriesForChart = [
+  {
+    name: CategoryEnum.BILLS,
+    icon: "education",  //TODO: icons fix
+    color: COLORS.purple,
+  },
+  {
+    name: CategoryEnum.EDUCATION,
+    icon: "education",
+    color: COLORS.darkgreen,
+  },
+  {
+    name: CategoryEnum.FOOD,
+    icon: "food",
+    color: COLORS.pink,
+  },
+  {
+    name: CategoryEnum.CARE,
+    icon: "healthcare",
+    color: COLORS.cpBlue,
+  },
+  {
+    name: CategoryEnum.HOBBY,
+    icon: "bike", 
+    color: COLORS.cpYellow,
+  },
+  {
+    name: CategoryEnum.CLOTHING,
+    icon: "cloth_icon",
+    color: COLORS.yellow2,
+  },
+  {
+    name: CategoryEnum.OTHERS,
+    icon: "cloth_icon",  //TODO: icons fix
+    color: COLORS.pink,
+  },
+];
 
 class ExpenseList extends Component {
   static navigationOptions = ({navigation}) => {
@@ -63,7 +101,7 @@ class ExpenseList extends Component {
 
   showActionButton = () => (
     <ActionButton
-      buttonColor={COLORS.odOrange}
+      buttonColor={COLORS.cpPINK}
       onPress={() =>
         this.props.navigation.navigate('ExpenseForm', {
           expenseAddedCallback: this.onExpenseAdded,
@@ -111,8 +149,8 @@ class ExpenseList extends Component {
               reverse
               name="shopping-basket"
               type="font-awesome-5"
-              color={COLORS.odOrange}
-              sou
+              color={COLORS.green3}
+              reverseColor= {COLORS.cpGreen} 
             />
             <Text style={styles.name}>{expense.title}</Text>
             <Text style={styles.name}>{expense.date}</Text>
@@ -122,6 +160,28 @@ class ExpenseList extends Component {
       </View>
     );
   };
+  
+  groupBy = (array, key) => {
+    return array.reduce((result, currentValue) => {
+      (result[currentValue[key]] = result[currentValue[key]] || []).push(
+        currentValue,
+      );
+      return result;
+    }, {});
+  };
+
+
+  mergeDataWithCategories = () => {
+    const {expenseList} = this.state;
+    const groupedByCategory = this.groupBy(expenseList, 'category');
+
+
+    const mergedData = categoriesForChart.map(c => {
+      const transactions =  groupedByCategory[c.name]
+      return [{color: c.color,name: c.name, icon: c.icon, transactions}]
+    })
+    return mergedData;
+  }
 
   render() {
     return (
@@ -132,13 +192,7 @@ class ExpenseList extends Component {
         {/* <View style={{ paddingHorizontal: 40, marginTop: 20, marginBottom: 20 }}> */}
         {this.showChartButton()}
         <View style={styles.header}>
-          <Text
-            style={{
-              fontSize: 40,
-              color: COLORS.odOrange,
-            }}
-            // style={styles.headerTitle}
-          >
+          <Text style={styles.headerTitle}>
             Expenses
           </Text>
         </View>
@@ -157,7 +211,7 @@ class ExpenseList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.cpDarkBlue, // albo "#064c34"
+    backgroundColor: COLORS.green7, 
   },
   header: {
     paddingHorizontal: 25,
@@ -173,10 +227,13 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
     shadowOpacity: 0.2,
     zIndex: 10,
+    
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: '500',
+    // fontSize: 20,
+    // fontWeight: '500',
+    fontSize: 40,
+    color: COLORS.cpPINK,
   },
   feed: {
     marginHorizontal: 16,
