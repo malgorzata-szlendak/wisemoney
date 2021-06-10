@@ -12,8 +12,9 @@ import {
 import {getExpenses} from '../../api/ExpensesApi';
 import {ListItem, Divider, Icon} from 'react-native-elements';
 import ActionButton from 'react-native-action-button';
-import {COLORS, SIZES, FONTS, icons, CategoryEnum} from '../../constants';
-import {TouchableHighlight} from 'react-native';
+import {COLORS, icons, CategoryEnum, FONTS, SIZES} from '../../constants';
+import {VictoryPie} from 'victory-native';
+import {Svg} from 'react-native-svg';
 
 const categoriesForChart = [
   {
@@ -63,6 +64,13 @@ class ExpenseList extends Component {
   state = {
     expenseList: [],
     selectedIndex: 0,
+    selectedCategory: null,
+  };
+
+  setSelectedCategory = selectedCategory => {
+    this.setState(prevState => ({
+      expenseList: (prevState.selectedCategory = selectedCategory),
+    }));
   };
 
   onExpenseAdded = expense => {
@@ -216,17 +224,143 @@ class ExpenseList extends Component {
     }, {});
   };
 
-
   mergeDataWithCategories = () => {
     const {expenseList} = this.state;
+
+    if (expenseList.length === 0) {
+      return;
+    }
+
     const groupedByCategory = this.groupBy(expenseList, 'category');
 
-
     const mergedData = categoriesForChart.map(c => {
-      const transactions =  groupedByCategory[c.name]
-      return [{color: c.color,name: c.name, icon: c.icon, transactions}]
-    })
+      const transactions = groupedByCategory[c.name] || [];
+      return {
+        color: c.color,
+        name: c.name,
+        icon: c.icon,
+        transactions: transactions,
+      };
+    });
     return mergedData;
+  };
+
+  processCategoryDataToDisplay() {
+    // filtrowanie transakcji po statusie 'potwierdzone'
+    const categories = this.mergeDataWithCategories();
+
+    if (!categories) return;
+
+    const chartData = categories.map(item => {
+      const price = item.transactions.reduce((a, b) => a + (+b.price || 0), 0);
+
+      return {
+        name: item.name,
+        y: price,
+        transactionsCount: item.transactions.length,
+        color: item.color,
+        id: item.id,
+      };
+    });
+
+    // console.log("--??---",chartData)
+
+    // odfiltrowanie kategorii bez danych/ transakcji
+    let filterChartData = chartData && chartData.filter(a => a.y > 0);
+
+    // podliczenie wydatkow
+    let totalExpense = filterChartData.reduce((a, b) => a + (b.y || 0), 0);
+
+    // podliczenie procentow i dane na wykresie
+    let finalChartData = filterChartData.map(item => {
+      let percentage = ((item.y / totalExpense) * 100).toFixed(0);
+      return {
+        label: `${percentage}%`,
+        y: +item.y,
+        transactionsCount: item.transactionsCount,
+        color: item.color,
+        name: item.name,
+        id: item.id,
+      };
+    });
+
+    return finalChartData;
+  }
+  setSelectCategoryByName(name) {
+    const categories = this.mergeDataWithCategories();
+    if (!categories) return;
+
+    let category = categories.filter(a => a.name == name);
+    setSelectedCategory(category[0]);
+  }
+
+  renderChart() {
+    let chartData = this.processCategoryDataToDisplay();
+    if (!chartData) return;
+    let colorScales = chartData.map(item => item.color);
+    let totalTransactionsCount = chartData.reduce(
+      (a, b) => a + (b.transactionsCount || 0),
+      0,
+    );
+
+    const selectedCategory = CategoryEnum.FOOD; //TODO: add option to selection other
+    return (
+      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <Svg
+          width={335}
+          height={335}
+          viewBox="0 0 335 335"
+          style={{width: '100%', height: 'auto'}}>
+          <VictoryPie
+            standalone={false} //dla Androida
+            data={chartData}
+            labels={datum => `${datum.y}`}
+            radius={({datum}) =>
+              selectedCategory && selectedCategory.name == datum.name
+                ? SIZES.width * 0.4
+                : SIZES.width * 0.4 - 10
+            }
+            innerRadius={70}
+            labelRadius={({innerRadius}) =>
+              (SIZES.width * 0.4 + innerRadius) / 2.5
+            }
+            style={{
+              labels: {fill: COLORS.black, ...FONTS.body3},
+              parent: {
+                ...styles.shadow,
+              },
+            }}
+            width={SIZES.width * 0.8}
+            height={SIZES.width * 0.8}
+            colorScale={colorScales}
+            events={[
+              {
+                target: 'data',
+                eventHandlers: {
+                  onPress: () => {
+                    return [
+                      {
+                        target: 'labels',
+                        mutation: props => {
+                          let categoryName = chartData[props.index].name;
+                          setSelectCategoryByName(categoryName);
+                        },
+                      },
+                    ];
+                  },
+                },
+              },
+            ]}
+          />
+        </Svg>
+        <View style={{position: 'absolute', top: '40%', left: '40%'}}>
+          <Text style={{...FONTS.h1, textAlign: 'center'}}>
+            {totalTransactionsCount}
+          </Text>
+          <Text style={{...FONTS.body3, textAlign: 'center'}}>Expenses</Text>
+        </View>
+      </View>
+    );
   }
 
   render() {
@@ -241,6 +375,7 @@ class ExpenseList extends Component {
             Expenses
           </Text>
         </View>
+        <View>{this.renderChart()}</View>
         <FlatList
           style={styles.feed}
           data={this.state.expenseList}
@@ -249,9 +384,7 @@ class ExpenseList extends Component {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}></FlatList>
         {/* {this.showActionButton()} */}
-        <View>
-        {this.renderNavBar()}
-        </View>
+        <View>{this.renderNavBar()}</View>
       </View>
     );
   }
