@@ -8,71 +8,75 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {getExpenses} from '../../api/ExpensesApi';
 import {ListItem, Divider, Icon} from 'react-native-elements';
+import {COLORS, icons, CategoryEnum, IconsEnum, FONTS, SIZES} from '../../constants';
 import ActionButton from 'react-native-action-button';
-import {COLORS, icons, CategoryEnum, FONTS, SIZES} from '../../constants';
 import {VictoryPie} from 'victory-native';
 import {Svg} from 'react-native-svg';
 
 const categoriesForChart = [
   {
     name: CategoryEnum.BILLS,
-    icon: icons.bill,  //TODO: icons fix
+    icon: IconsEnum.BILLS, 
     color: COLORS.purple,
   },
   {
     name: CategoryEnum.EDUCATION,
-    icon: icons.education,
+    icon: IconsEnum.EDUCATION,
     color: COLORS.darkgreen,
   },
   {
     name: CategoryEnum.FOOD,
-    icon: icons.food,
+    icon: IconsEnum.FOOD,
     color: COLORS.pink,
   },
   {
     name: CategoryEnum.CARE,
-    icon: icons.care,
+    icon: IconsEnum.CARE,
     color: COLORS.cpBlue,
   },
   {
     name: CategoryEnum.HOBBY,
-    icon: icons.hobby, 
+    icon: IconsEnum.HOBBY, 
     color: COLORS.cpYellow,
   },
   {
     name: CategoryEnum.CLOTHING,
-    icon: icons.clothing,
+    icon: IconsEnum.CLOTHING,
     color: COLORS.yellow2,
   },
   {
     name: CategoryEnum.OTHERS,
-    icon: icons.other,  //TODO: icons fix
+    icon: IconsEnum.OTHERS,  
     color: COLORS.pink,
   },
 ];
 
 class ExpenseList extends Component {
-  static navigationOptions = ({navigation}) => {
-    return {
-      title: 'Expense List',
-    };
+  static navigationOptions = {
+    header: null,
   };
 
   state = {
     expenseList: [],
     selectedIndex: 0,
     selectedCategory: null,
+    viewMode: 'chart',
   };
 
   setSelectedCategory = selectedCategory => {
     this.setState(prevState => ({
-      expenseList: (prevState.selectedCategory = selectedCategory),
+      selectedCategory: (prevState.selectedCategory = selectedCategory),
     }));
   };
-
+  setViewMode = viewMode => {
+    this.setState(prevState => ({
+      viewMode: (prevState.viewMode = viewMode),
+    }));
+  };
   onExpenseAdded = expense => {
     this.setState(prevState => ({
       expenseList: [...prevState.expenseList, expense],
@@ -117,23 +121,9 @@ class ExpenseList extends Component {
       }
     />
   );
-  // showChartButton = () => (
-  //   <TouchableHighlight
-  //     buttonColor={COLORS.odOrange}
-  //     onPress={() =>
-  //       this.props.navigation.navigate('ExpenseSummary')
-  //     }>
-  //     <Image
-  //       source={icons.chart}
-  //       style={{
-  //         width: 30,
-  //         height: 30,
-  //         tintColor: COLORS.green3,
-  //       }}
-  //     />
-  //   </TouchableHighlight>
-  // );
+
   renderExpense = (expense, index) => {
+    const mapIconExpense =  categoriesForChart.filter(d=> d.name==expense.category)[0];
     return (
       <View style={styles.feedItem}>
         <TouchableOpacity
@@ -153,12 +143,12 @@ class ExpenseList extends Component {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Icon
+           <Icon
               reverse
-              name="shopping-basket"
+              name={mapIconExpense.icon}
               type="font-awesome-5"
-              color={COLORS.green3}
-              reverseColor= {COLORS.cpGreen} 
+              color='#fff'
+              reverseColor= {mapIconExpense.color} 
             />
             <Text style={styles.name}>{expense.title}</Text>
             <Text style={styles.name}>{expense.date}</Text>
@@ -170,14 +160,17 @@ class ExpenseList extends Component {
   };
 
   renderNavBar() {
+    const {viewMode} = this.state;
     return (
-      <View
-        style={styles.bottomBarContainer}>
+      <View style={styles.bottomBarContainer}>
         <TouchableOpacity
-          style={{justifyContent: 'center', alignItems: 'center', width: 50}}
-          onPress={() => 
-            this.props.navigation.navigate('ExpenseSummary')
-          }>
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 50,
+            // backgroundColor: viewMode == 'chart' ? COLORS.green3 : COLORS.cpPINK,
+          }}
+          onPress={() => this.setViewMode('chart')}>
           <Image
             source={icons.chart}
             resizeMode="contain"
@@ -185,13 +178,16 @@ class ExpenseList extends Component {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{justifyContent: 'center', alignItems: 'center', width: 50}}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 50,
+          }}
           onPress={() =>
-          this.props.navigation.navigate('ExpenseForm', {
-          expenseAddedCallback: this.onExpenseAdded,
-        })
-      }
-          >
+            this.props.navigation.navigate('ExpenseForm', {
+              expenseAddedCallback: this.onExpenseAdded,
+            })
+          }>
           <Image
             source={icons.plus}
             resizeMode="contain"
@@ -205,7 +201,7 @@ class ExpenseList extends Component {
             alignItems: 'center',
             width: 50,
           }}
-          onPress={() => console.log('More')}>
+          onPress={() => this.setViewMode('list')}>
           <Image
             source={icons.menu}
             resizeMode="contain"
@@ -291,10 +287,11 @@ class ExpenseList extends Component {
     if (!categories) return;
 
     let category = categories.filter(a => a.name == name);
-    setSelectedCategory(category[0]);
+    this.setSelectedCategory(category[0]);
   }
 
   renderChart() {
+    const {selectedCategory} = this.state;
     let chartData = this.processCategoryDataToDisplay();
     if (!chartData) return;
     let colorScales = chartData.map(item => item.color);
@@ -303,7 +300,6 @@ class ExpenseList extends Component {
       0,
     );
 
-    const selectedCategory = CategoryEnum.FOOD; //TODO: add option to selection other
     return (
       <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <Svg
@@ -343,7 +339,7 @@ class ExpenseList extends Component {
                         target: 'labels',
                         mutation: props => {
                           let categoryName = chartData[props.index].name;
-                          setSelectCategoryByName(categoryName);
+                          this.setSelectCategoryByName(categoryName);
                         },
                       },
                     ];
@@ -362,8 +358,83 @@ class ExpenseList extends Component {
       </View>
     );
   }
+  renderExpenseSummary() {
+    const {selectedCategory} = this.state;
+    let data = this.processCategoryDataToDisplay();
+
+    const renderItem = ({item}) => (
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          height: 40,
+          paddingHorizontal: SIZES.radius,
+          borderRadius: 10,
+          backgroundColor:
+            selectedCategory && selectedCategory.name == item.name
+              ? item.color
+              : COLORS.white,
+        }}
+        onPress={() => {
+          let categoryName = item.name;
+          this.setSelectCategoryByName(categoryName);
+        }}>
+        {/* nazwa kategorii */}
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              width: 20,
+              height: 20,
+              backgroundColor:
+                selectedCategory && selectedCategory.name == item.name
+                  ? COLORS.white
+                  : item.color,
+              borderRadius: 5,
+            }}
+          />
+
+          <Text
+            style={{
+              marginLeft: SIZES.base,
+              color:
+                selectedCategory && selectedCategory.name == item.name
+                  ? COLORS.white
+                  : COLORS.black,
+              ...FONTS.h3,
+            }}>
+            {item.name}
+          </Text>
+        </View>
+
+        {/* wydatki */}
+        <View style={{justifyContent: 'center'}}>
+          <Text
+            style={{
+              color:
+                selectedCategory && selectedCategory.name == item.name
+                  ? COLORS.white
+                  : COLORS.black,
+              ...FONTS.h3,
+            }}>
+            {item.y} PLN - {item.label}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+
+    return (
+      <View style={{padding: SIZES.padding}}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => `${item.id}`}
+        />
+      </View>
+    );
+  }
 
   render() {
+    const {viewMode} = this.state;
+    console.log(viewMode);
     return (
       <View style={styles.container}>
         {/* <View style={styles.header}>
@@ -371,19 +442,25 @@ class ExpenseList extends Component {
         </View> */}
         {/* <View style={{ paddingHorizontal: 40, marginTop: 20, marginBottom: 20 }}> */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>
-            Expenses
-          </Text>
+          <Text style={styles.headerTitle}>Wisemoney</Text>
         </View>
-        <View>{this.renderChart()}</View>
-        <FlatList
-          style={styles.feed}
-          data={this.state.expenseList}
-          renderItem={({item}) => this.renderExpense(item)}
-          // keyExtractor={item => item.id}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}></FlatList>
-        {/* {this.showActionButton()} */}
+        <ScrollView>
+          {viewMode == 'chart' && 
+          <View>
+          {this.renderChart()}
+          {this.renderExpenseSummary()}
+          </View>}
+          {viewMode == 'list' && (
+            <FlatList
+              style={styles.feed}
+              data={this.state.expenseList}
+              renderItem={({item}) => this.renderExpense(item)}
+              // keyExtractor={item => item.id}
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}></FlatList>
+          )}
+          {/* {this.showActionButton()} */}
+        </ScrollView>
         <View>{this.renderNavBar()}</View>
       </View>
     );
@@ -392,7 +469,7 @@ class ExpenseList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.green7, 
+    backgroundColor: COLORS.green7,
   },
   header: {
     paddingHorizontal: 25,
@@ -408,11 +485,11 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
     shadowOpacity: 0.2,
     zIndex: 10,
-    
   },
   headerTitle: {
     // fontSize: 20,
     // fontWeight: '500',
+    textAlign:'center',
     fontSize: 40,
     color: COLORS.cpPINK,
   },
@@ -424,6 +501,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 8,
     marginVertical: 8,
+    borderColor: "#C4C6CE",
+    borderWidth: 1,
   },
   avatar: {
     width: 36,
@@ -469,6 +548,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     tintColor: COLORS.cpPINK,
-  }
+  },
 });
 export default ExpenseList;
