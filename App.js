@@ -5,21 +5,8 @@ import ExpenseDetailsScreen from './src/screens/ExpenseDetailsScreen';
 import ExpenseSummaryScreen from './src/screens/ExpenseSummaryScreen';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import Tabs from './navigator/tabs'
 import SplashScreen from 'react-native-splash-screen'
 
-// const AppContainer = createAppContainer(
-// createStackNavigator( <Tabs/>)}
-
-// const App = () => {
-//   return(
-//     <AppContainer>
-    
-//     </AppContainer>
-//   ),
-// }
-
-// export default App;
 const AppContainer = createAppContainer(
   createStackNavigator(
     {

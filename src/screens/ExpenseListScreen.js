@@ -12,43 +12,43 @@ import {
 import {getExpenses} from '../../api/ExpensesApi';
 import {ListItem, Divider, Icon} from 'react-native-elements';
 import ActionButton from 'react-native-action-button';
-import {COLORS, icons, CategoryEnum} from '../../constants';
+import {COLORS, SIZES, FONTS, icons, CategoryEnum} from '../../constants';
 import {TouchableHighlight} from 'react-native';
 
 const categoriesForChart = [
   {
     name: CategoryEnum.BILLS,
-    icon: "education",  //TODO: icons fix
+    icon: icons.bill,  //TODO: icons fix
     color: COLORS.purple,
   },
   {
     name: CategoryEnum.EDUCATION,
-    icon: "education",
+    icon: icons.education,
     color: COLORS.darkgreen,
   },
   {
     name: CategoryEnum.FOOD,
-    icon: "food",
+    icon: icons.food,
     color: COLORS.pink,
   },
   {
     name: CategoryEnum.CARE,
-    icon: "healthcare",
+    icon: icons.care,
     color: COLORS.cpBlue,
   },
   {
     name: CategoryEnum.HOBBY,
-    icon: "bike", 
+    icon: icons.hobby, 
     color: COLORS.cpYellow,
   },
   {
     name: CategoryEnum.CLOTHING,
-    icon: "cloth_icon",
+    icon: icons.clothing,
     color: COLORS.yellow2,
   },
   {
     name: CategoryEnum.OTHERS,
-    icon: "cloth_icon",  //TODO: icons fix
+    icon: icons.other,  //TODO: icons fix
     color: COLORS.pink,
   },
 ];
@@ -109,22 +109,22 @@ class ExpenseList extends Component {
       }
     />
   );
-  showChartButton = () => (
-    <TouchableHighlight
-      buttonColor={COLORS.odOrange}
-      onPress={() =>
-        this.props.navigation.navigate('ExpenseSummary')
-      }>
-      <Image
-        source={icons.chart}
-        style={{
-          width: 30,
-          height: 30,
-          tintColor: COLORS.green3,
-        }}
-      />
-    </TouchableHighlight>
-  );
+  // showChartButton = () => (
+  //   <TouchableHighlight
+  //     buttonColor={COLORS.odOrange}
+  //     onPress={() =>
+  //       this.props.navigation.navigate('ExpenseSummary')
+  //     }>
+  //     <Image
+  //       source={icons.chart}
+  //       style={{
+  //         width: 30,
+  //         height: 30,
+  //         tintColor: COLORS.green3,
+  //       }}
+  //     />
+  //   </TouchableHighlight>
+  // );
   renderExpense = (expense, index) => {
     return (
       <View style={styles.feedItem}>
@@ -160,7 +160,53 @@ class ExpenseList extends Component {
       </View>
     );
   };
-  
+
+  renderNavBar() {
+    return (
+      <View
+        style={styles.bottomBarContainer}>
+        <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'center', width: 50}}
+          onPress={() => 
+            this.props.navigation.navigate('ExpenseSummary')
+          }>
+          <Image
+            source={icons.chart}
+            resizeMode="contain"
+            style={styles.bottomBarIcon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'center', width: 50}}
+          onPress={() =>
+          this.props.navigation.navigate('ExpenseForm', {
+          expenseAddedCallback: this.onExpenseAdded,
+        })
+      }
+          >
+          <Image
+            source={icons.plus}
+            resizeMode="contain"
+            style={styles.bottomBarIcon}
+          />
+        </TouchableOpacity>
+        {/* {this.showActionButton()} */}
+        <TouchableOpacity
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 50,
+          }}
+          onPress={() => console.log('More')}>
+          <Image
+            source={icons.menu}
+            resizeMode="contain"
+            style={styles.bottomBarIcon}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
   groupBy = (array, key) => {
     return array.reduce((result, currentValue) => {
       (result[currentValue[key]] = result[currentValue[key]] || []).push(
@@ -194,7 +240,6 @@ class ExpenseList extends Component {
           <Text style={styles.headerTitle}>
             Expenses
           </Text>
-          {this.showChartButton()}
         </View>
         <FlatList
           style={styles.feed}
@@ -203,7 +248,10 @@ class ExpenseList extends Component {
           // keyExtractor={item => item.id}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}></FlatList>
-        {this.showActionButton()}
+        {/* {this.showActionButton()} */}
+        <View>
+        {this.renderNavBar()}
+        </View>
       </View>
     );
   }
@@ -276,5 +324,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  bottomBarContainer: {
+    flexDirection: 'row',
+    height: 60,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: SIZES.padding,
+    backgroundColor: COLORS.white,
+  },
+  bottomBarIcon: {
+    width: 30,
+    height: 30,
+    tintColor: COLORS.cpPINK,
+  }
 });
 export default ExpenseList;
