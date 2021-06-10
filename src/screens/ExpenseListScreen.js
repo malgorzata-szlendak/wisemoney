@@ -120,7 +120,7 @@ class ExpenseList extends Component {
         style={{
           width: 30,
           height: 30,
-          tintColor: COLORS.odOrange,
+          tintColor: COLORS.green3,
         }}
       />
     </TouchableHighlight>
@@ -190,11 +190,11 @@ class ExpenseList extends Component {
           <Text style={styles.headerTitle}>Lista wydatków</Text>
         </View> */}
         {/* <View style={{ paddingHorizontal: 40, marginTop: 20, marginBottom: 20 }}> */}
-        {this.showChartButton()}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>
             Expenses
           </Text>
+          {this.showChartButton()}
         </View>
         <FlatList
           style={styles.feed}
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 25,
-    paddingTop: 64,
+    paddingTop: 16,
     paddingBottom: 16,
     backgroundColor: '#FFF',
     // alignItems: 'center',
